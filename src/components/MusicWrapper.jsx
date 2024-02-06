@@ -25,8 +25,6 @@ const getNowPlaying = () => {
 }
 
 
-
-
 const MusicWrapper = () => {
   const [playlist, setPlaylist] = useState(getLocalItems())
   const [currentSong, setCurrentSong] = useState(getNowPlaying())
@@ -34,9 +32,7 @@ const MusicWrapper = () => {
 
   const addSong = (audio, songName) => {
     setPlaylist([...playlist, { id: uuid(), audio, name: songName }])
-
   }
-
 
   useEffect(() => {
     localStorage.setItem('playlist', JSON.stringify(playlist))
@@ -56,11 +52,9 @@ const MusicWrapper = () => {
     const newPlaylist = playlist.filter((each) => each.id !== song.id)
     setPlaylist(newPlaylist)
 
-  
-
-    // getNowPlaying()
-
   }
+
+
 
   return (
     <Container>
@@ -79,6 +73,7 @@ const MusicWrapper = () => {
       {currentSong ? (
         <PlayerCon>
           <hr />
+          {/* <audio src={currentSong.audio} ref = {audioElem} onTimeUpdate={onPlaying} /> */}
           <Player
             playlist={playlist}
             setPlaylist={setPlaylist}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, {  useState } from 'react'
 import styled from 'styled-components';
 import logo from '../media/logo.png'
 import { FaPlus } from "react-icons/fa6";
@@ -9,16 +9,16 @@ const MusicForm = ({ addSong }) => {
 
     const [audio, setAudio] = useState('')
     const [songName, setSongName] = useState('')
-
+   
 
     const addFile = (e) => {
-
+        e.preventDefault()
         let selected = e.target.files[0]
         if (selected) {
+           
             setSongName(selected.name)
             setAudio(URL.createObjectURL(selected));
         }
-        e.preventDefault()
     };
 
     const addToPlaylist = () => {
@@ -27,15 +27,18 @@ const MusicForm = ({ addSong }) => {
         }
     }
 
+
+
+
     return (
         <UploadCon>
             <img src={logo} alt='logo' />
             <Input >
-                <input id='file' type='file' onChange={addFile} />
+                <input id='file' type='file' onChange={addFile}  />
                 <label htmlFor='file'>
                     <p>Select File</p>
                 </label>
-                <button onClick={addToPlaylist}><FaPlus /></button>
+                <button onClick={addToPlaylist}><FaPlus size={25} /></button>
 
             </Input>
         </UploadCon>
@@ -82,6 +85,7 @@ const Input = styled.div`
     button{
         width: 50px;
         height: 50px;
+        color: #fff;
         border-radius: 25px;
         border:0;
         margin-left: 5px;

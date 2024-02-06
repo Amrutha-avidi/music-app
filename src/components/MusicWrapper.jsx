@@ -7,59 +7,60 @@ import { FcMusic } from "react-icons/fc";
 import Player from './Player';
 
 
-// const getLocalItems = () => {
-//   let list = localStorage.getItem('playlist')
-//   if (list) {
-//     return JSON.parse(localStorage.getItem('playlist'))
-//   } else {
-//     return []
-//   }
-// }
+const getLocalItems = () => {
+  let list = localStorage.getItem('playlist')
+  if (list) {
+    return JSON.parse(localStorage.getItem('playlist'))
+  } else {
+    return []
+  }
+}
 
-// const getNowPlaying = () => {
-//   let running = localStorage.getItem('nowPlaying') || 'default value';
-//   if (running) {
-//     return JSON.parse(localStorage.getItem('nowPlaying'))
-//   } else {
-//     return ''
-//   }
-// }
+const getNowPlaying = () => {
+  let running = localStorage.getItem('nowPlaying')
+  if (running) {
+    return JSON.parse(localStorage.getItem('nowPlaying'))
+  }
+  return null
+}
+
+
 
 
 const MusicWrapper = () => {
-  const [playlist, setPlaylist] = useState([])
-  const [currentSong, setCurrentSong] = useState(null)
+  const [playlist, setPlaylist] = useState(getLocalItems())
+  const [currentSong, setCurrentSong] = useState(getNowPlaying())
 
 
   const addSong = (audio, songName) => {
     setPlaylist([...playlist, { id: uuid(), audio, name: songName }])
-    
+
   }
+
 
   useEffect(() => {
     localStorage.setItem('playlist', JSON.stringify(playlist))
   }, [playlist])
 
+  useEffect(() => {
+    localStorage.setItem('nowPlaying', JSON.stringify(currentSong))
+  }, [currentSong])
 
-  // useEffect(() => {
-  //   localStorage.setItem('nowPlaying', JSON.stringify(currentSong))
-  // }, [currentSong])
 
 
   const removeSong = (song) => {
+      if (playlist.length === 0 || song === currentSong) {
+      localStorage.setItem('nowPlaying', '')
+      setCurrentSong(null)
+    }
     const newPlaylist = playlist.filter((each) => each.id !== song.id)
     setPlaylist(newPlaylist)
 
-    if (playlist.length > 0) {
+  
 
-      const index = playlist.findIndex(each => each.name === song.name)
-      if (song === currentSong) {
-        setCurrentSong(playlist[index - 1])
-        // getNowPlaying()
-      }
-    }
+    // getNowPlaying()
+
   }
-
 
   return (
     <Container>
@@ -77,6 +78,7 @@ const MusicWrapper = () => {
 
       {currentSong ? (
         <PlayerCon>
+          <hr />
           <Player
             playlist={playlist}
             setPlaylist={setPlaylist}
@@ -94,15 +96,11 @@ const MusicWrapper = () => {
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    label{
-        display: flex;
-        align-items: center;
-        justify-content: right;
-        button{
-            background-color: transparent;
-            border:0;
-        }
-    }
+    background: rgb(18, 6, 241);
+background: linear-gradient(124deg, rgba(4,1,59,1) 16%, rgba(12,12,177,0.7343312324929971) 69%);
+    /* background-color: #837e7e; */
+    height: 100vh;
+    color:white;
 `
 
 const SongItem = styled.div`
@@ -110,6 +108,7 @@ const SongItem = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 1rem 3rem ;
+   
     div{
         display: flex;
         align-items: center;
@@ -119,13 +118,17 @@ const SongItem = styled.div`
             font-size:30px;
         }
     }
+    
 `
 const PlayerCon = styled.div`
+ color:white;
      position: absolute;
     bottom: 1px;
     width: 100%;
-    background-color: gold;
-    padding:30px;
+      background-color: transparent;
+   
+    /* box-shadow: rgba(0, 0, 0, 0.4) 0px 30px 90px;  */
+      padding:10px 40px;
 `
 
 
